@@ -1,14 +1,31 @@
 import React from "react";
 
-function Item({ item }) {
+function Item({ item, onToggleInCart, onDeleteItem }) {
+  const { id, name, category, isInCart } = item;
+
+  // Handle the toggle of inCart status
+  const handleToggleInCart = () => {
+    onToggleInCart(id, !isInCart); // Pass the id and the opposite of current status
+  };
+
+  // Handle item deletion
+  const handleDeleteItem = () => {
+    onDeleteItem(id); // Pass the item id to the parent to delete the item
+  };
+
   return (
-    <li className={item.isInCart ? "in-cart" : ""}>
-      <span>{item.name}</span>
-      <span className="category">{item.category}</span>
-      <button className={item.isInCart ? "remove" : "add"}>
-        {item.isInCart ? "Remove From" : "Add to"} Cart
+    <li>
+      <h3>{name}</h3>
+      <p>Category: {category}</p>
+      <p>Status: {isInCart ? "In Cart" : "Not in Cart"}</p>
+
+      {/* Toggle in cart button */}
+      <button onClick={handleToggleInCart}>
+        {isInCart ? "Remove from Cart" : "Add to Cart"}
       </button>
-      <button className="remove">Delete</button>
+
+      {/* Delete button */}
+      <button onClick={handleDeleteItem}>Delete</button>
     </li>
   );
 }
